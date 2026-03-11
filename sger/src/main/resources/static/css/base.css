@@ -1,0 +1,34 @@
+@font-face {
+	font-family: 'EB_Garamond';
+	src: url('/fonts/EB_Garamond/EBGaramond-VariableFont_wght.ttf') format('truetype');
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	--color-bg: #000;
+	--color-primary: #416b96;
+	--color-hover: red;
+	--color-accent: #d70000;
+	--color-navbar: #11111;
+	--color-form: #336375;
+	--color-text: #e4e8e9;
+	--border-radius: 5px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: 'EB_Garamond', serif, arial;
+	font-size: 20px;
+	line-height: 1.7;
+	padding-top: 40px; 
+}

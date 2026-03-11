@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/navbar.css}">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+	<link rel="stylesheet" th:href="@{/css/pages/dashboardAsistente.css}">
+	<link rel="stylesheet" th:href="@{/css/modal.css}">
+	<script th:src="@{/js/menu.js}"></script>
+	<script th:src="@{/js/cards.js}"></script>
+	<script th:src="@{/js/dashboardAsistente.js}"></script>
+	<title th:text="Dashboard + ' ' + ${nombreReal}">Dashboard Asistente</title>
+</head>
+
+<body>
+	<div class="container">
+		<nav class="navbar" id="navbar">
+			<div class="icon-hamburger" id="hamburger">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</div>
+			<div class="menu-wrapper">
+				<ul class="menu menu-izq" id="menu-izq">
+					<li class="menu-item"><a class="menu-link" th:href="@{/}">Inicio</a></li>
+					<li class="menu-item" sec:authorize="isAuthenticated()">
+						<a sec:authorize="hasRole('ASISTENTES')" class="menu-link"
+							th:href="@{/profile/asistente/dashboardAsistente}">Perfil</a>
+						<a sec:authorize="hasRole('ORGANIZADORES')" class="menu-link"
+							th:href="@{/profile/organizador/dashboardOrganizador}">Perfil</a>
+						<a sec:authorize="hasRole('ADMINISTRADORES')" class="menu-link"
+							th:href="@{/profile/administrador/dashboardAdministrador}">Perfil</a>
+					</li>
+					<li class="menu-item" sec:authorize="!isAuthenticated()">
+						<a class="menu-link" th:href="@{/#eventos}">Eventos</a>
+					</li>
+					<li sec:authorize="isAuthenticated() and hasRole('ADMINISTRADORES')" class="menu-item dropdown">
+						<a class="menu-link dropdown-toggle">Gestionar</a>
+						<ul class="dropdown-menu" id="menu-izq">
+							<li class="menu-item">
+								<a href="/profile/administrador/eventos/tablaEventos" class="dropdown-link">Eventos</a>
+							</li>
+							<li class="menu-item">
+								<a href="/profile/administrador/usuarios/tablaUsuarios"
+									class="dropdown-link">Usuarios</a>
+							</li>
+							<li class="menu-item">
+								<a href="/profile/administrador/categorias/tablaCategorias"
+									class="dropdown-link">Categorias</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul sec:authorize="!isAuthenticated()" class="menu menu-der user-dropdown" id="menu-der">
+					<li class="menu-item">
+						<a class="menu-link" th:href="@{/auth/login}">Inicia sesion</a>
+					</li>
+					<li class="menu-item">
+						<a class="menu-link" th:href="@{/auth/registrarse}">Registrarse</a>
+					</li>
+				</ul>
+				<ul sec:authorize="isAuthenticated()" class="menu menu-der user-dropdown" id="menu-der">
+
+					<li class="menu-item">
+						<form th:action="@{/logout}" method="post" id="form-salir">
+							<button class="menu-link btn-logout" id="salir" type="submit">
+								Cerrar sesion
+							</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+			<div class="user-container">
+				<svg class="icon-user" id="icon-user" viewBox="0 0 24 24">
+					<circle cx="12" cy="8" r="4" />
+					<path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+				</svg>
+			</div>
+		</nav>
+		<main class="content" id="content">
+
+			<aside class="barra-lateral">
+				<ul class="menu">
+					<li>
+						<a href="#proximos-eventos" class="aside-link">Próximos eventos</a>
+					</li>
+					<li>
+						<a href="#mis-reservas" class="aside-link">Mis reservas</a>
+					</li>
+					<li>
+						<a href="#mis-eventos" class="aside-link">Mis eventos</a>
+					</li>
+				</ul>
+			</aside>
+
+			<div class="secciones">
+
+				<!-- EVENTOS RECIENTES -->
+				<section class="seccion proximos-eventos" id="proximos-eventos">
+					<header class="section-header">
+						<h1 class="">Próximos eventos</h1>
+					</header>
+
+					<div class="grid-eventos" id="grid-eventos">
+						<section th:each="evento : ${eventosRecientes}" class="card-evento"
+							th:data-id="${evento.idEvento}">
+							<header class="header">
+								<h2 th:text="${evento.tituloEvento}" class="titulo-evento"></h2>
+							</header>
+							<article class="card-body">
+								<img th:alt="${evento.tituloEvento}" th:src="@{${evento.urlImagen} + '.jpg'}"
+									class="cartel" />
+								<p id="ubicacion">
+									<span
+										th:text="${evento.ubicacion.pais}+ ', ' + ${evento.ubicacion.codigoPostal} + ' - ' + ${evento.ubicacion.localidad}"></span>
+								</p>
+								<p id="fechaInicio">
+									Fecha inicio:<span
+										th:text="${#temporals.format(evento.fechaInicio, ' dd/MM/yyyy, HH:mm')}"></span>
+								</p>
+								<p id="fechaFin">
+									Fecha fin:<span
+										th:text="${#temporals.format(evento.fechaFin, ' dd/MM/yyyy, HH:mm')}"></span>
+								</p>
+							</article>
+							<div class="overlay">
+								<a th:href="@{/profile/asistente/reservas/{id}(id=${evento.idEvento})}"
+									class="link-evento">
+									reservar
+								</a>
+								<a th:href="@{/profile/asistente/reservas/{id}#detalles-evento(id=${evento.idEvento})}"
+									class="link-evento">
+									detalles
+								</a>
+							</div>
+						</section>
+					</div>
+				</section>
+
+				<!-- MIS RESERVAS -->
+				<section class="seccion mis-reservas" id="mis-reservas">
+					<div class="tab-container">
+						<a th:href="@{/profile/asistente/dashboardAsistente(estado=null)}" class="tab-link">Todas las
+							Reservas</a>
+						<a th:href="@{/profile/asistente/dashboardAsistente(estado='confirmada')}"
+							class="tab-link">Reservas confirmadas</a>
+						<a th:href="@{/profile/asistente/dashboardAsistente(estado='pendiente')}"
+							class="tab-link">Reservas pendientes</a>
+						<a th:href="@{/profile/asistente/dashboardAsistente(estado='cancelada')}"
+							class="tab-link">Reservas canceladas</a>
+						<a th:href="@{/profile/asistente/dashboardAsistente(estado='reembolsada')}"
+							class="tab-link">Reservas reembolsadas</a>
+					</div>
+					<table class="tabla">
+						<thead class="thead">
+							<tr class="fila">
+								<th class="cel-head">Nombre del evento</th>
+								<th class="cel-head">Fecha de reserva</th>
+								<th class="cel-head">Fecha de inicio</th>
+								<th class="cel-head">Estado</th>
+								<th class="cel-head">Plazas</th>
+								<th class="cel-head">Importe total</th>
+								<th class="cel-head">Acciones</th>
+							</tr>
+						</thead>
+						<tbody class="tbody">
+							<tr th:if="${msg}">
+								<td colspan="7" th:text="${msg}" class="tablaVacia"></td>
+							</tr>
+							<tr th:each="reserva : ${listaReservas}" class="fila" th:class="${reserva.estado}"
+								th:id="${'reserva-' + reserva.idReserva}" th:if="${msg == null}">
+								<td th:text="${reserva.evento.tituloEvento}" class="cel-body titulo-evento"></td>
+								<td th:text="${#temporals.format(reserva.fechaReserva, ' dd/MM/yyyy, HH:mm')}"
+									class="cel-body"></td>
+								<td th:text="${#temporals.format(reserva.evento.fechaInicio, ' dd/MM/yyyy, HH:mm')}"
+									class="cel-body"></td>
+								<td th:text="${reserva.estado}" class="cel-body estado"
+									th:id="${reserva.estado + '-reserva-' + reserva.idReserva}"></td>
+								<td th:text="${reserva.plazasReservadas}" class="cel-body"></td>
+								<td th:text="${reserva.total + '€'}" class="cel-body"></td>
+								<td class="cel-body acciones">
+									<div class="icon-container" th:if="${reserva.estado.name() == 'pendiente'}">
+										<a th:href="@{/profile/asistente/checkout/form_checkout/{id}(id=${reserva.idReserva})}"
+											class="link-action formalizar"
+											th:id="'link-formalizar-' + ${reserva.idReserva}"
+											th:data-id="${reserva.idReserva}">
+											<svg class="icono i-formalizar" xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+												stroke-linecap="round" stroke-linejoin="round">
+												<path d="M4 2h16v20H4z" />
+												<polyline points="6 12 10 16 18 8" />
+											</svg>
+										</a>
+										<span class="tooltip tip-formalizar">Formalizar reserva</span>
+									</div>
+									<div class="icon-container" id="'i-descargar-container' + ${reserva.idReserva}"
+										th:if="${reserva.estado.name() == 'confirmada'}">
+										<a th:href="@{/profile/asistente/reservas/descargar/entrada/{id}(id=${reserva.idReserva})}"
+											class="link-action descargar"
+											th:id="'link-descargar-' + ${reserva.idReserva}"
+											th:data-id="${reserva.idReserva}">
+											<svg class="icono i-descargar" xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+												stroke-linecap="round" stroke-linejoin="round">
+												<path d="M12 3v12" />
+												<path d="M7 10l5 5 5-5" />
+												<path d="M5 21h14" />
+											</svg>
+										</a>
+										<span th:if="${reserva.estado.name() == 'confirmada'}"
+											class="tooltip tip-descargar">Descargar entrada</span>
+										<span
+											th:if="${reserva.estado.name() == 'cancelada' or reserva.estado.name() == 'reembolsada'}"
+											class="tooltip tip-descargar">Descargar comprobante</span>
+									</div>
+									<div class="icon-container" th:id="'i-cancelar-container-' + ${reserva.idReserva}"
+										th:if="${reserva.estado.name() == 'confirmada' or reserva.estado.name() == 'pendiente'}">
+										<a href="#" class="link-action cancelar"
+											th:id="'link-cancelar-' + ${reserva.idReserva}"
+											th:data-id="${reserva.idReserva}">
+											<svg class="icono i-cancelar" xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+												stroke-linecap="round" stroke-linejoin="round">
+												<line x1="18" y1="6" x2="6" y2="18" />
+												<line x1="6" y1="6" x2="18" y2="18" />
+											</svg>
+										</a>
+										<span class="tooltip tip-cancelar">Cancelar asistencia</span>
+									</div>
+									<div class="icon-container" th:id="'i-reembolso-container-' + ${reserva.idReserva}"
+										th:if="${reserva.estado.name() == 'cancelada'}">
+										<a href="#" class="link-action reembolso"
+											th:id="'link-reembolso-' + ${reserva.idReserva}"
+											th:data-id="${reserva.idReserva}">
+											<svg class="icono i-reembolso" xmlns="http://www.w3.org/2000/svg"
+												fill="none" stroke="currentColor" stroke-width="2"
+												stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+												<rect x="2" y="6" width="20" height="12" rx="2"></rect>
+												<path d="M7 12h6"></path>
+												<path d="M13 9l3 3-3 3"></path>
+											</svg>
+										</a>
+										<span class="tooltip tip-reembolso">Solicitar reembolso</span>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div id="modal-cancelar" class="modal hidden">
+						<div class="modal-content">
+							<form id="form-cancelar" class="modal-form">
+								<input type="hidden" id="idReserva" name="idReserva" />
+								<fieldset>
+									<div>
+										<label for="motivo">Motivo</label>
+									</div>
+									<select name="motivo" class="opciones" id="motivo">
+										<option disabled selected value="">--- Selcciona una opcion ---</option>
+										<option value="cambio_planes">Cambio de planes</option>
+										<option value="error_reserva">Error en la reserva</option>
+										<option value="intento_fallido">Intento fallido</option>
+										<option value="comprado_error">Comprado por error</option>
+										<option value="otro">Otro</option>
+									</select>
+								</fieldset>
+								<textarea name="otroMotivo" id="otroMotivo" class="textarea hidden"
+									placeholder="Escribe el motivo de tu cancelacion..."></textarea>
+								<fieldset class="controles">
+									<input type="submit" id="btn-enviar-modal" class="btn-enviar" value="Enviar">
+									<input type="button" id="btn-cerrar-modal" class="btn-cerrar" value="Cerrar">
+								</fieldset>
+							</form>
+							<div class="mensaje-container">
+								<span id="mensajeError" class="msgErrServ hidden"></span>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- MIS EVENTOS -->
+				<section class="seccion mis-eventos" id="mis-eventos">
+					<div class="tab-container">
+						<a th:href="@{/profile/asistente/dashboardAsistente(vista='todos')}" class="tab-link">Todas los
+							eventos</a>
+						<a th:href="@{/profile/asistente/dashboardAsistente(vista='reservados')}"
+							class="tab-link">Eventos reservados</a>
+					</div>
+					<table class="tabla">
+						<thead class="thead">
+							<tr class="fila">
+								<th class="cel-head">Nombre del evento</th>
+								<th class="cel-head">Fecha de inicio</th>
+								<th class="cel-head">Fecha final</th>
+								<th class="cel-head">Precio base</th>
+								<th class="cel-head">Categoria</th>
+								<th class="cel-head">Ubicacion</th>
+							</tr>
+						</thead>
+						<tbody th:if="${vista=='reservados'}" class="tbody">
+							<tr th:each="reserva : ${eventosReservados}" class="fila">
+								<td th:text="${reserva.evento.tituloEvento}" class="cel-body titulo-evento"></td>
+								<td th:text="${#temporals.format(reserva.evento.fechaInicio, ' dd/MM/yyyy, HH:mm')}"
+									class="cel-body"></td>
+								<td th:text="${#temporals.format(reserva.evento.fechaFin, ' dd/MM/yyyy, HH:mm')}"
+									class="cel-body"></td>
+								<td th:text="${reserva.evento.precioBase + '€'}" class="cel-body"></td>
+								<td th:text="${reserva.evento.categoria.nombreCategoria}" class="cel-body"></td>
+								<td th:text="${reserva.evento.ubicacion.pais + ', ' + reserva.evento.ubicacion.localidad + ' ' + reserva.evento.ubicacion.codigoPostal}"
+									class="cel-body"></td>
+								<td class="cel-body acciones">
+									<div class="icon-container">
+										<a href="" class="link-action guardar" id="link-guardar">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+												stroke="currentColor" stroke-width="2" stroke-linecap="round"
+												stroke-linejoin="round" class="icono i-guardar">
+												<path
+													d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+												<polyline points="17 21 17 13 7 13 7 21" />
+												<polyline points="7 3 7 8 15 8" />
+											</svg>
+										</a>
+										<span class="tooltip tip-cancelar">Guardar cambios</span>
+									</div>
+									<div class="icon-container">
+										<a href="" class="link-action guardar" id="link-guardar">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+												stroke="currentColor" stroke-width="2" stroke-linecap="round"
+												stroke-linejoin="round" class="icono i-guardar">
+												<path
+													d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+												<polyline points="17 21 17 13 7 13 7 21" />
+												<polyline points="7 3 7 8 15 8" />
+											</svg>
+										</a>
+										<span class="tooltip tip-cancelar">Guardar cambios</span>
+									</div>
+									<div class="icon-container">
+										<a href="" class="link-action descargar" id="link-descargar">
+											<svg class="icono i-descargar" xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+												stroke-linecap="round" stroke-linejoin="round">
+												<path d="M12 3v12" />
+												<path d="M7 10l5 5 5-5" />
+												<path d="M5 21h14" />
+											</svg>
+										</a>
+										<span class="tooltip tip-descargar">Descargar entrada</span>
+									</div>
+									<div class="icon-container">
+										<a href="@{/auth/login/{id}(id=${reserva.idReserva})}"
+											class="link-action cancelar" id="link-cancelar">
+											<svg class="icono i-cancelar" xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+												stroke-linecap="round" stroke-linejoin="round">
+												<line x1="18" y1="6" x2="6" y2="18" />
+												<line x1="6" y1="6" x2="18" y2="18" />
+											</svg>
+										</a>
+										<span class="tooltip tip-cancelar">Cancelar asistencia</span>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+						<tbody th:if="${vista=='todos'}" class="tbody">
+							<tr th:each="evento : ${todosEventos}" class="fila">
+								<td th:text="${evento.tituloEvento}" class="cel-body titulo-evento"></td>
+								<td th:text="${#temporals.format(evento.fechaInicio, ' dd/MM/yyyy, HH:mm')}"
+									class="cel-body"></td>
+								<td th:text="${#temporals.format(evento.fechaFin, ' dd/MM/yyyy, HH:mm')}"
+									class="cel-body"></td>
+								<td th:text="${evento.precioBase + '€'}" class="cel-body"></td>
+								<td th:text="${evento.categoria.nombreCategoria}" class="cel-body"></td>
+								<td th:text="${evento.ubicacion.pais + ', ' + evento.ubicacion.localidad + ' ' + evento.ubicacion.codigoPostal}"
+									class="cel-body"></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+			</div>
+		</main>
+	</div>
+</body>
+
+</html>

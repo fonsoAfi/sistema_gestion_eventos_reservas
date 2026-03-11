@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambiar clave</title>
+</head>
+<body>
+	<!-- Crear el cambiar clave con th:field para usar el claveDTO -->
+    <div th:replace="~{fragments/comun :: barraNav}"></div>
+    <main class="content">
+        <h1>Formulario de cambio de clave</h1>
+        <form action="#" method="post" id="cambiar_clave-form" th:action="@{/profile/cambiar_clave}" th:object="${claveDTO}"> 
+            <!-- th:object="@{datosUsuario}"> 
+            <fieldset class="fields">
+				<div th:replace="~{fragments/campos_form :: campoEmail}"></div>
+				<div th:replace="~{fragments/campos_form :: campoClave}"></div>
+                <label for="clave_confirma">
+                    <input type="password" name="" id="clave_confirma" placeholder="repite la contraseña">
+                </label>
+            </fieldset>-->
+            <fieldset>
+				<label for="clave">
+					<input type="password" th:field="*{claveNueva}" id="clave" placeholder="Escribe una contraseña..."><!--  name="password"-->
+				</label>
+	            <label for="clave_confirma">
+	                <input type="password" th:field="*{claveRepetida}" id="clave_confirma" placeholder="repite la contraseña">
+	            </label>
+	        </fieldset>
+            <fieldset class="controls">
+                <input type="submit" value="Cambiar clave">
+                <a th:href="@{/auth/login}">Login</a>
+            </fieldset>
+        </form>
+        <div>
+        	<span th:if="${success}" th:text="${success}"></span>
+        </div>
+        <div>
+        	<span th:if="${errorMsg}" th:text="${errorMsg}"></span>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,431 @@
+.container {
+	padding: 0;
+	margin-left: 0px;
+	margin-right: 0;
+}
+
+.content {
+	color: white;
+	display: grid;
+	height: 100vh;
+}
+
+.estadisticas{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px,1fr));
+    gap: 20px;
+}
+
+.card-container{
+    background: linear-gradient(135deg, #1e1e2e 0%, #3b82f6 50%, #5048ec);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-container:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.card-title{
+    font-size: 1rem;
+}
+
+.card-title span {
+    display: block;
+    margin-top: 0px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #dfdfff;
+}
+
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+th, td{
+    padding: 12px 10px;
+    text-align: left;
+}
+
+tbody tr{
+    border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover{
+    background-color: #000000;
+}
+
+.card{
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.shadow{
+    box-shadow: 0 4px 15px rgba(7,1,7,0.7);
+}
+
+.card-evento {
+	position: relative;
+	overflow: hidden;
+	padding: 5px;
+	cursor: pointer;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+	border-radius: 25px;
+	text-align: center;
+}
+
+.overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(0,0,0,0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	opacity: 0; 
+	transition: opacity 0.3s;
+	pointer-events: none;
+}
+
+.card-evento:hover .overlay {
+	opacity: 1;
+}
+
+.cartel {
+	border-radius: 25px;
+	width: 350px;
+	height: 400px;
+}
+
+.link-evento {
+	text-decoration: none;
+	color: white;
+	background-color: red;
+	padding: 10px;
+	border-radius: 20px;
+	font-size: 15px;
+	text-transform: uppercase;
+	pointer-events: auto;
+}
+
+.link-evento:hover {
+	cursor: pointer;
+	background-color: #800000;
+}
+
+.lightbox-modal {
+	position: fixed;
+	inset: 0;
+	background: rgba(0,0,0,0.9);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+	cursor: pointer;
+}
+
+.lightbox-cerrar {
+	position: fixed;
+	top: -2vh;
+	left: -2vw;
+	font-family: arial;
+	font-size: 40px;
+	color: white;
+	padding: 30px 280px;
+	cursor: pointer;
+	transition: 0.3s;
+	z-index: 10001;
+}
+
+.lightbox-cerrar:hover {
+	color: red;
+}
+
+.lightbox-img-wrapper {
+	background-color: rgba(10, 25, 60, 0.85);;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 65%;
+	height: 95%;
+	border-radius: 15px;
+}
+
+.lightbox-img {
+	width: 80%;
+	height: 95%;
+	border-radius: 8px;
+	border: 0.5px solid rgba(1,0,0,0.1);
+}
+
+.pagination {
+	margin: 50px 0;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+}
+
+
+.barra-lateral {
+	border: 1px solid white;
+	position: fixed;
+	width: 220px;
+	height: 100vh;
+	overflow-y: auto;	
+}
+
+.barra-lateral ul {
+	padding: 0.5rem 0;
+}
+
+.barra-lateral li {
+	margin: 2.5rem 0;
+}
+
+.barra-lateral a {
+	display: flex;
+	align-items: center;
+	padding: 2rem 0rem;
+	font-size: 25px;
+	text-decoration: none;
+	color: white;
+	font-weight: 500;
+	transition: all 0.3s ease;
+}
+
+.barra-lateral a:hover {
+	background: rgba(148, 163, 184, 0.1);
+	color: red;
+}
+
+.secciones {
+	margin-left: 130px;
+	height: 100vh; 
+}
+
+
+.card-evento {
+	opacity: 1;
+	transform: translateY(0);
+	transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.seccion {
+	padding-top: 70px;
+	padding-bottom: 90px;
+}
+
+.active {
+	display: block;
+	visibility: visible;
+}
+
+
+/*** TABLA RESERVAS CONFIRMADAS ***/
+.tabla {
+	width: 100%;
+	border-collapse: collapse;
+	background: grey;
+	color: black;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+	font-size: 18px;
+}
+
+.thead {
+	background-color: #f8f9fa;
+}
+
+.cel-head {
+	text-align: left;
+	
+	
+}
+
+.cel-head, .cel-body {
+	white-space: nowrap;
+	padding-top: 16px;
+	padding-bottom: 16px;
+	padding-left: 14px;
+	padding-right: 7px;
+}
+
+.cel-body {
+    border-top: 1px solid #eee;
+    border-left: 1px solid #eee;
+}
+
+
+.titulo-evento {
+	border-left: none;
+}
+
+.tbody tr:hover {
+    background-color: rgba(192, 192, 192, 5);
+    transition: background 0.2s ease;
+}
+
+.link-action {
+	display: inline-block;
+	text-decoration: none;
+}
+
+.link-action:hover {
+	transition: color 0.2s ease;
+}
+
+.link-action:visited, .link-action:visited svg {
+	color: none;
+}
+
+.link-action svg {
+	transition: transform 0.2s;
+}
+
+.link-action:hover svg {
+  transform: scale(1.1);
+}
+
+.cancelar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: red;
+    transition: color 0.2s ease;
+}
+
+.decargar {
+	background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.i-descargar {
+	fill: #0080ff;
+}
+
+
+.i-formalizar {
+	fill: green;
+}
+
+.i-formalizar path {
+	color: green;
+}
+
+.i-formalizar polyline {
+	color: white;
+}
+
+.icono {
+	width: 25px;
+	height: 25px;
+}
+
+.i-cancelar {
+	fill: red;
+}
+
+
+.i-guardar path {
+	fill: #0080c0;
+}
+
+.i-guardar polyline:nth-of-type(1) {
+	fill: grey;
+}
+
+.i-guardar polyline:nth-of-type(2) {
+	fill: grey;
+}
+
+.link-action:hover .i-cancelar {
+	color: #a60000;
+}
+
+.descargar:hover .i-descargar {
+	color: #003366;
+}
+
+.incon-container {
+	position: relative;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+
+
+/** Tootip **/
+.tooltip {
+  
+  visibility: hidden;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 12px;
+  position: absolute;
+  z-index: 1000;
+  
+  transform: translateY(-43px) translateX(-70px);
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+  white-space: nowrap;
+  font-size: 14px;
+  pointer-events: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.icon-container:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tab-container {
+	display: flex;
+	gap: 1px;
+	
+}
+
+.tab-link {
+	padding-bottom: 5px;
+	padding-left: 10px;
+	border: none;
+	cursor: pointer;
+	border-bottom: 2px solid transparent;
+	color: red;
+}
+
+.tab-link:nth-of-type(2), .tab-link:nth-of-type(3) {
+	padding-left: 20px;
+}
+
+.tab-container .tab-link:hover {
+	color: white;
+}
+
+.tab-link:visited {
+	color: red;
+}
+
+.tablaVacia {
+	text-align: center; 
+	padding: 100px; 
+	font-size: 19px; 
+	font-weight: bold;
+}
+
+.descripcion-corta {
+	white-space: nowrap;  
+	overflow: hidden;     
+	text-overflow: ellipsis;  
+	max-width: 50px;
+}

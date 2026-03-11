@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<script th:src="@{../../../../js/realizar_reserva.js}"></script>
+	<title>Checkout</title>
+</head>
+
+<body>
+	<div class="container">
+		<nav class="navbar">
+			<div class="hamburger" id="hamburger">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</div>
+			<ul class="list" id="navmenu">
+				<li><a th:href="@{/}">Inicio</a></li>
+				<li sec:authorize="isAuthenticated()">
+					<a th:href="@{/profile/asistente/dashboardAsistente}" class="perfil">Perfil</a>
+				</li>
+				<li sec:authorize="isAuthenticated()">
+					<a href="" class="reservas">Mis reservas</a>
+				</li>
+				<li sec:authorize="isAuthenticated()">
+					<form th:action="@{/logout}" method="post" id="form-salir">
+						<button id="salir" type="submit">
+							Cerrar sesion
+						</button>
+					</form>
+				</li>
+				<li sec:authorize="!isAuthenticated()">
+					<a th:href="@{/auth/login}">Inicia sesion</a>
+				</li>
+				<li sec:authorize="!isAuthenticated()">
+					<a th:href="@{/auth/registrarse}">Registrarse</a>
+				</li>
+				<li sec:authorize="!isAuthenticated()">
+					<a th:href="@{/#eventos}">Eventos</a>
+				</li>
+			</ul>
+		</nav>
+		<main class="content">
+			<section class="seccion-checkout">
+				<h1>Verificar pago</h1>
+				<form method="post" th:action="@{/profile/asistente/checkout/nuevo}" th:object="${checkout}"
+					id="login-form">
+					<input type="hidden" name="idReserva" th:value="${reserva.idReserva}">
+					<section id="datosPago">
+						<p>Titular:
+							<span th:text="${reserva.titular}"></span>
+						</p>
+						<p>Fecha de creacion:
+							<span th:text="*{fechaCreacion}"></span>
+						</p>
+						<p>Estado del pago:
+							<span th:text="*{estado}"></span>
+						</p>
+					</section>
+					<section id="datosReserva">
+						<table>
+							<tr>
+								<th>Id de la Reserva</th>
+								<th>Evento</th>
+								<th>Precio total</th>
+							</tr>
+							<tr>
+								<td th:text="${reserva.idReserva}"></td>
+								<td th:text="${reserva.evento.tituloEvento}"></td>
+								<td th:text="${reserva.total}"></td>
+							</tr>
+						</table>
+					</section>
+
+					<section id="detallesPago">
+						<article>
+							<p>Subtotal:
+								<span th:text="${reserva.subtotal}"></span>
+							</p>
+							<p>Gastos de gestion:
+								<span th:text="${reserva.gastosGestion}"></span>
+							</p>
+							<p id="precioTotal">Total:
+								<span th:text="${reserva.total}"></span>
+							</p>
+						</article>
+						<article>
+							<label>Metodo de pago:
+								<select th:field="*{metodoPago}">
+									<option th:each="metodoSelect : ${metodosPago}" th:value="${metodoSelect}"
+										th:text="${metodoSelect}">
+									</option>
+								</select>
+							</label>
+						</article>
+					</section>
+					<input type="submit" value="Confirmar pago" id="confirmPago">
+				</form>
+			</section>
+		</main>
+	</div>
+</body>
+
+</html>

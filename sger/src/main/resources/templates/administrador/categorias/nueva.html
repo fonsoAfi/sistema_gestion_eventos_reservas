@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Categoria nueva</title>
+</head>
+
+<body>
+	<main class="content">
+		<h1>Crear una categoria</h1>
+
+		<form th:action="@{/profile/administrador/categorias/nueva}" th:object="${categoria}" id="nueva-categoria-form"
+			method="post">
+
+			<fieldset class="campos">
+				<label for="nombreCategoria">
+					<input type="text" th:field="*{nombreCategoria}" id="nombreCategoria"
+						placeholder="nombre de la categoria">
+					<span th:if="${nombreCategoriaError}" th:text="${nombreCategoriaError}" class="error"></span>
+				</label>
+
+				<label for="descripcion">
+					<textarea th:field="*{descripcion}" id="descripcion" rows="4" cols="50"
+						placeholder="descripcion del evento">
+					</textarea>
+					<span th:if="${descripcionError}" th:text="${descripcionError}" class="error"></span>
+				</label>
+
+			</fieldset>
+
+			<fieldset class="controles">
+				<input type="submit" value="Crear categoria">
+			</fieldset>
+		</form>
+
+		<span th:if="${errorMsg}" class="alert alert-danger" th:text="${errorMsg}"></span>
+		<span th:if="${successMsg}" th:text="${successMsg}"></span>
+	</main>
+</body>
+
+</html>

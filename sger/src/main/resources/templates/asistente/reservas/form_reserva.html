@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<script th:replace="~{fragments/comun :: interacciones}"></script>
+	<script th:src="@{../../../../js/realizar_reserva.js}"></script>
+	<title>Reserva</title>
+</head>
+
+<body>
+	<div class="container">
+		<nav class="navbar">
+			<div class="hamburger" id="hamburger">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</div>
+			<ul class="list" id="navmenu">
+				<li><a th:href="@{/}">Inicio</a></li>
+				<li sec:authorize="isAuthenticated()">
+					<a th:href="@{/profile/asistente/dashboardAsistente}" class="perfil">Perfil</a>
+				</li>
+				<li sec:authorize="isAuthenticated()">
+					<a href="" class="reservas">Mis reservas</a>
+				</li>
+				<li sec:authorize="isAuthenticated()">
+					<form th:action="@{/logout}" method="post" id="form-salir">
+						<button id="salir" type="submit">
+							Cerrar sesion
+						</button>
+					</form>
+				</li>
+				<li sec:authorize="!isAuthenticated()">
+					<a th:href="@{/auth/login}">Inicia sesion</a>
+				</li>
+				<li sec:authorize="!isAuthenticated()">
+					<a th:href="@{/auth/registrarse}">Registrarse</a>
+				</li>
+				<li sec:authorize="!isAuthenticated()">
+					<a th:href="@{/#eventos}">Eventos</a>
+				</li>
+			</ul>
+		</nav>
+		<main class="content">
+			<section class="seccion-detalles" id="detalles-evento">
+				<article>
+					<header>
+						<h3 th:text="${evento.tituloEvento}"></h3>
+					</header>
+					<p id="ubicacion">
+						<span
+							th:text="${evento.ubicacion.pais}+ ', ' + ${evento.ubicacion.codigoPostal} + ' - ' + ${evento.ubicacion.localidad}"></span>
+					</p>
+					<img th:alt="${evento.tituloEvento}" th:src="@{${evento.urlImagen} + '.jpg'}" class="cartel" />
+					<p id="fechaInicio">
+						Fecha inicio: <span
+							th:text="${#temporals.format(evento.fechaInicio, 'dd/MM/yyyy, HH:mm')}"></span>
+					</p>
+					<p id="fechaFin">
+						Fecha fin: <span th:text="${#temporals.format(evento.fechaFin, 'dd/MM/yyyy, HH:mm')}"></span>
+					</p>
+					<p class="descripcion" th:text="${evento.descripcion}"></p>
+				</article>
+				<a href="#reserva">Realizar reserva</a>
+			</section>
+			<section id="reserva" class="seccion-reserva">
+
+				<form method="post" th:action="@{/profile/asistente/reservas/nueva}" th:object="${reserva}" id=""
+					class="form-reserva">
+					<input type="hidden" name="idEvento" th:value="${evento.idEvento}">
+					<section id="datos-reserva">
+						<article>
+							<header>
+								<h3 th:text="'Entradas para ' + ${evento.tituloEvento}">Entradas</h3>
+							</header>
+							<p>Titular:
+								<span
+									th:text="${usuario.nombreReal + ' ' + usuario.apellido1 + ' ' + usuario.apellido2}"></span>
+							</p>
+							<label for="cantidad" class="lab-cantidad">
+								<span>Selecciona la cantidad de entradas:</span>
+								<select id="cantidad" th:field="*{plazasReservadas}">
+									<option th:each="i : ${#numbers.sequence(1, 5)}" th:value="${i}" th:text="${i}">
+									</option>
+								</select>
+							</label>
+							<div>
+								<p>Precio base:
+									<span id="precioBase" th:text="${evento.precioBase}"></span>
+								</p>
+								<p>Cantidad de entradas:
+									<span id="cantidadEntradas">1</span>
+								</p>
+								<p>Subtotal reserva:
+									<span id="subtotal" th:text="${evento.precioBase}"></span>
+								</p>
+								<p>Gastos de gestion:
+									<span id="gastosGestion" th:text="${gastosGestion}"></span>
+								</p>
+								<p>Precio total:
+									<span id="total" th:text="${evento.precioBase + gastosGestion}"></span>
+								</p>
+								<input id="continuar" type="submit" value="Continuar">
+							</div>
+						</article>
+					</section>
+				</form>
+			</section>
+		</main>
+	</div>
+</body>
+
+</html>

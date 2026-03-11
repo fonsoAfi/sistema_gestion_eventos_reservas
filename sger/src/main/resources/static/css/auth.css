@@ -1,0 +1,170 @@
+.auth-page {
+	background: linear-gradient(135deg, #1e1e2e 0%, #3b82f6 50%, #5048ec);
+}
+
+.auth {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.auth-card {
+	color: white;
+	background: rgba(1,1,1,0.5);
+	border-radius: 15px;
+	border: 2px solid rgba(1,1,1,0.1);
+	padding: 50px;
+	min-height: 100px;
+	min-width: 100px;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+}
+
+
+
+.auth-header {
+	margin-bottom: 65px;	
+}
+
+.auth-form fieldset {
+	border: none;
+}
+
+.campos {
+	display: flex;
+	justify-content: flex-start;
+	gap: 14px;
+	margin-bottom: 25px;
+}
+
+.controles {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 15px;
+	
+}
+
+.campo {
+	box-sizing: border-box;
+}
+
+.campo, .controles input {
+	padding: 15px;
+	border-radius: 10px;
+	font-size: 15px;
+	border: none;
+}
+
+.enviar {
+	color: white;
+	background-color: red; 
+}
+
+.enviar:hover {
+	background-color: #800000;
+	cursor: pointer;
+}
+
+.link-form {
+	color: white;
+}
+
+.link-form:hover {
+	color: red;
+}
+
+.btn-paso {
+	font-family: arial;
+	color: white;
+	background-color: red; 
+	padding: 12px;
+	border-radius: 10px;
+	font-size: 15px;
+	text-decoration: none;
+	border: none;
+}
+
+.btn-paso:hover {
+	background-color: #800000;
+	cursor: pointer;
+}
+
+@media (max-width: 650px) {
+	.ingresar {
+		margin-left: 0;
+	}
+	
+	.auth-header, .controles {
+		text-align: center;
+	}
+	
+	.campos {
+		text-align: center;
+		flex-direction: column;
+		
+	}	
+}
+
+.campos.secundarios, .campos.paises {
+	justify-content: flex-start;
+}
+
+.roles {
+	margin-bottom: 20px;
+}
+
+.opcion {
+	padding-right: 15px;
+	padding-left: 2px;
+	text-transform: lowercase;
+}
+
+#paises {
+	font-size: 15px;
+	padding: 15px;
+	border: none;
+	border-radius: 5px;
+}
+
+.paso {
+	display: none;
+	visibility: hidden;
+}
+
+.active {
+	display: block;
+	visibility: visible;
+}
+
+.error {
+	outline: 2px solid #ff0000; 
+}
+
+.mensaje-container {
+	padding-left: 1px;
+	padding-top: 10px;
+}
+
+.msgErrServ, .mensajeError {
+	min-height: 18px;
+	display: block;
+	font-family: arial;
+	color: red;
+}
+
+.mensajeError {
+	font-size: 12px;	
+}
+
+.msgErrServ {
+	font-size: 17px;
+}
+
+.mensajeExito {
+	min-height: 18px;
+	display: block;
+	font-family: arial;
+	font-size: 17px;
+	color: #00ff00;
+}

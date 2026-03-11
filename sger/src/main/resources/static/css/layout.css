@@ -1,0 +1,22 @@
+body {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background-color: #01313f;
+}
+
+section {
+	padding-top: 90px;
+}
+
+.container {
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+	margin-inline: auto;
+}
+
+.content {
+	flex: 1;
+}

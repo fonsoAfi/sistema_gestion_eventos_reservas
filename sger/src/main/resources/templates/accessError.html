@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>información Legal</title>
+</head>
+<body>
+    <aside class="sidebar">
+        <nav class="navbar">
+            <ul class="list">
+                <li><a href="/">&#x1F3E0; inicio</a></li>
+                <li><a th:href="@{/auth/login}">&#x1F511; iniciar sesión</a></li>
+                <li><a href="/infoLegal">&#x2139; información</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="content">
+        <h1>Acceso denegado, Error 404: No tienes permisos para acceder a la pagina</h1>
+        <a th:href="@{/auth/login}">Login</a>
+        <a th:href="@{/}">Volver a la pagina inicial</a>
+    </main> 
+</body>
+</html>

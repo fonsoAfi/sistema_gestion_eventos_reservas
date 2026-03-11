@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Registrarse</title>
+</head>
+<body>
+    <div th:fragment="formEvento">
+        <h1>Registrar un nuevo evento</h1>
+        
+        <form th:action="@{/profile/organizador/eventos/nuevo}" th:object="${nuevoEvento}" id="login-form" method="post">
+
+            <fieldset class="campos">
+				
+				<label for="nombreEvento">
+					<input type="text" th:field="*{tituloEvento}" id="tituloEvento" placeholder="nombre del evento">
+					<span th:if="${nombreEventoError}" th:text="${nombreEventoError}" class="error"></span>
+				</label>
+				
+				<label for="descripcion">
+					<textarea th:field="*{descripcion}" id="descripcion" rows="4" cols="50" placeholder="descripcion del evento">
+					</textarea>
+					<span th:if="${descripcionError}" th:text="${descripcionError}" class="error"></span>
+				</label>
+				
+				<label for="limitePlazas">
+					<input type="number" th:field="*{limitePlazas}" id="limitePlazas" min="1">
+					<span th:if="${limitePlazasError}" th:text="${limitePlazasError}" class="error"></span>
+				</label>
+				
+				<label for="fechaInicio">
+					<input type="date" th:field="*{fechaInicio}" id="fechaInicio">
+					<span th:if="${fechaInicioError}" th:text="${fechaInicioError}" class="error"></span>
+				</label>
+				
+				<label for="fechaFin">
+					<input type="date" th:field="*{fechaFin}" id="fechaFin">
+					<span th:if="${fechaFinError}" th:text="${fechaFinError}" class="error"></span>
+				</label>
+				
+
+	
+			</fieldset>
+		
+			<fieldset class="campos">
+			
+				<label for="nombreCategoria">
+					<select th:field="*{categoria}" id="categoria">
+						<option value="" disabled selected>Selecciona una categoría</option>
+						<option th:each="categ : ${listaCategorias}" 
+								th:value="${categ.idCategoria}" 
+								th:text="${categ.nombreCategoria}">
+						</option>
+					</select>
+					<span th:if="${nombreCategoriaError}" th:text="${nombreCategoriaError}" class="error"></span>
+				</label>
+				
+				<label for="ubicaciones">
+					<select th:field="*{ubicacion}" id="ubicacion">
+						<option value="" disabled selected>Selecciona la ubicacion</option>
+						<option th:each="ubi : ${listaUbicaciones}" 
+								th:value="${ubi.idUbicacion}" 
+								th:text="${ubi.pais}+ ', ' + ${ubi.codigoPostal} + ' - ' + ${ubi.localidad}">
+						</option>
+					</select>
+					<span th:if="${nombreCategoriaError}" th:text="${nombreCategoriaError}" class="error"></span>
+				</label>
+				
+				<!-- Faltan los datos de la ubicacion y tambien tendre que obtener id del usuario para insertar -->
+			</fieldset>
+			<!-- 
+			<fieldset id="camposOrganizadores">
+				<label for="nombreOrganizador">
+					<input type="text" th:field="*{nombreOrganizador}" id="nombreOrganizador" placeholder="nombre de organizador">
+					<span th:if="${nombreOrganizadorError}" th:text="${nombreOrganizadorError}" class="error"></span>
+				</label>
+				<label for="tipoOrganizador">
+					<input type="text" th:field="*{nombreOrganizador}" id="nombreOrganizador" placeholder="nombre de organizador">
+					<span th:if="${nombreOrganizadorError}" th:text="${nombreOrganizadorError}" class="error"></span>
+				</label>
+				
+			</fieldset>
+			<fieldset id="camposAdministradores">
+				<label for="nombreOrganizador">
+					<input type="text" th:field="*{nombreOrganizador}" id="nombreOrganizador" placeholder="nombre de organizador">
+					<span th:if="${nombreOrganizadorError}" th:text="${nombreOrganizadorError}" class="error"></span>
+				</label>
+				<label for="tipoOrganizador">
+					<input type="text" th:field="*{nombreOrganizador}" id="nombreOrganizador" placeholder="nombre de organizador">
+					<span th:if="${nombreOrganizadorError}" th:text="${nombreOrganizadorError}" class="error"></span>
+				</label>
+				
+			</fieldset>
+	 -->
+			<fieldset class="controles">
+				<input type="submit" value="Guardar nuevo evento">
+			</fieldset>
+					
+    	</form>
+    	
+        <span th:if="${errorMsg}" class="alert alert-danger" th:text="${errorMsg}"></span>
+        <span th:if="${successMsg}" th:text="${successMsg}"></span>
+    </div>
+</body>
+</html>

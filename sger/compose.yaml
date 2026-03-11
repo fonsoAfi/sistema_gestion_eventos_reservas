@@ -1,0 +1,30 @@
+services:
+  sger:
+    build: .
+    image: sger:1.0
+    ports:
+      - '8081:8080'
+    container_name: sger_app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/sistema_gestion_eventos_reservas
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_DRIVER=com.mysql.cj.jdbc.Driver
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    depends_on:
+           my_db:
+            condition: service_healthy
+  my_db:
+   image: mysql:8.0
+   ports:
+    - '3307:3306'
+   container_name: my_db
+   environment:
+     - MYSQL_DATABASE=sistema_gestion_eventos_reservas
+     - MYSQL_ROOT_PASSWORD=root
+   restart: always
+   healthcheck:
+     test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+     timeout: 10s
+     retries: 10

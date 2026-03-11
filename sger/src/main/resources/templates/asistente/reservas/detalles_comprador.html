@@ -1,0 +1,29 @@
+<section id="detallesComprador">
+
+	<label for="nombreReal">
+		<input type="text" th:field="*{nombreReal}" id="nombreReal" placeholder="nombre real">
+
+	</label>
+
+	<label for="apellidoCompleto">
+		<input type="text" th:field="*{apellidoCompleto}" id="apellidoCompleto" placeholder="apellidos">
+
+	</label>
+
+	<label for="mail">
+		<input type="email" th:field="*{mail}" id="mail" placeholder="email, ej: nombre@mail.com">
+
+	</label>
+	<label for="telefono">
+		<input type="tel" th:field="*{telefono}" id="telefono" placeholder="ej: 690123456">
+
+	</label>
+	<div th:each="metodoPago : ${metodosPago}">
+		<input type="radio" name="metodoPago" th:id="${metodoPago}" th:value="${metodoPago}">
+		<span th:text="${metodoPago.getLabel()}"></span>
+	</div>
+	<input type="submit" value="Confirmar reserva">
+	<input type="button" id="btnLimpiar" value="Limpiar formulario">
+
+</section>
+</form>

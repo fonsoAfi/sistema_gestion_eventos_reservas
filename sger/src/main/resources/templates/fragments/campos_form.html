@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+<fieldset class="campos" th:fragment="datosPersonales">
+	<label for="nombreReal">
+		<input type="text" id="nombreReal" th:field="*{nombreReal}" placeholder="nombre real">
+	</label>
+	<div th:if="${#fields.hasErrors('nombreReal')}">
+    	<p th:text="${#fields.errors('nombreReal')[0]}"></p>
+	</div>
+	<label for="apellido1">
+		<input type="text" id="apellido1" th:field="*{apellido1}" placeholder="apellido 1">
+	</label>
+	<label for="apellido2">
+		<input type="text" id="apellido2" th:field="*{apellido2}" placeholder="apellido 2">
+	</label>
+	<label for="telefono">
+		<input type="tel" id="telefono" th:field="*{telefono}" placeholder="ej: 690123456">
+	</label>
+	<!-- <div th:if="${#fields.hasErrors('telefono')}">
+    	<p th:text="${#fields.errors('telefono')[0]}"></p>
+	</div> -->
+	<label for="nombrePerfil">
+		<input type="text" id="nombrePerfil" th:field="*{nombrePerfil}" placeholder="nombre de perfil">
+	</label>
+
+
+	<label for="fechaNac">
+		<input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}">
+	</label>
+	<div th:if="${#fields.hasErrors('fechaNacimiento')}">
+    	<p th:text="${#fields.errors('fechaNacimiento')[0]}"></p>
+	</div>
+	<label for="paises">
+		<select id="paises" th:field="*{pais}">
+			<option th:each="pais : ${paises}" 
+					th:value="${pais}" 
+					th:text="${pais}">
+		</select>
+	</label>
+	<div th:field="*{rol}">
+	<label th:each="rol : ${roles}">
+		<input type="radio" th:id="${rol}" th:value="${rol}">
+		<span th:text="${rol}"></span>
+	</label>
+	</div>
+	
+</fieldset>
+<fieldset class="campos" th:fragment="datosUsuario">
+	<label for="mail" th:fragment="campoEmail">
+     	<input type="email" name="mail" id="mail" placeholder="email, ej: nombre@mail.com"><!--  name="usename"-->
+	</label>
+	<!-- <div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}">
+		<span th:text="${#fields.hasErrors('mail')}"></span>
+	</div> -->
+	<label for="clave" th:fragment="campoClave">
+		<input type="password" name="clave" id="clave" placeholder="Escribe una contraseña..."><!--  name="password"-->
+	</label>
+	<!-- <div th:if="${#fields.hasErrors('clave')}" th:errors="*{clave}">
+		<span th:text="${#fields.hasErrors('clave')}"></span>
+	</div> -->
+</fieldset>
+<fieldset th:fragment="controlesSignin" class="controles">
+	<input type="submit" th:fragment="submRegist" value="Registrarse">
+	<a th:href="@{/auth/login}" th:fragment="linkLogin">Iniciar Sesión</a>
+	<p><a th:href="@{/auth/cambiar_clave}" th:fragment="recupClave">Recuperar contraseña</a></p>
+</fieldset>
+<fieldset th:fragment="controlesLogin" class="controles">
+	<input type="submit" th:fragment="submLogin" value="Iniciar Sesión" class="ingresar">
+	<a th:href="@{/auth/registrarse}" th:fragment="linkSignin">Registrarse</a>
+	<!-- <p><a th:href="@{/auth/cambiar_clave}" th:fragment="recupClave">Recuperar contraseña</a></p> -->
+</fieldset>	
+<fieldset th:fragment="controlesRecup" class="controles">
+	<input type="submit" th:fragment="submRecup" value="Solicitar recupercion de clave">
+</fieldset>
+</body>
+</html>

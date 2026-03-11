@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Completar perfil organizador</title>
+</head>
+
+<body class="auth-page">
+	<nav class="navbar" id="navbar">
+		<div class="icon-hamburger" id="hamburger">
+			<span class="bar"></span>
+			<span class="bar"></span>
+			<span class="bar"></span>
+		</div>
+		<div class="menu-wrapper">
+			<ul class="menu menu-izq" id="menu-izq">
+				<li class="menu-item"><a class="menu-link" th:href="@{/}">Inicio</a></li>
+				<li class="menu-item" sec:authorize="isAuthenticated()">
+					<a sec:authorize="hasRole('ASISTENTES')" class="menu-link"
+						th:href="@{/profile/asistente/dashboardAsistente}">Perfil</a>
+					<a sec:authorize="hasRole('ORGANIZADORES')" class="menu-link"
+						th:href="@{/profile/organizador/dashboardOrganizador}">Perfil</a>
+					<a sec:authorize="hasRole('ADMINISTRADORES')" class="menu-link"
+						th:href="@{/profile/administrador/dashboardAdministrador}">Perfil</a>
+				</li>
+				<li class="menu-item" sec:authorize="!isAuthenticated()">
+					<a class="menu-link" th:href="@{/#eventos}">Eventos</a>
+				</li>
+				<li sec:authorize="isAuthenticated() and hasRole('ADMINISTRADORES')" class="menu-item dropdown">
+					<a class="menu-link dropdown-toggle">Gestionar</a>
+					<ul class="dropdown-menu" id="menu-izq">
+						<li class="menu-item">
+							<a href="/profile/administrador/eventos/tablaEventos" class="dropdown-link">Eventos</a>
+						</li>
+						<li class="menu-item">
+							<a href="/profile/administrador/usuarios/tablaUsuarios" class="dropdown-link">Usuarios</a>
+						</li>
+						<li class="menu-item">
+							<a href="/profile/administrador/categorias/tablaCategorias"
+								class="dropdown-link">Categorias</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<ul sec:authorize="!isAuthenticated()" class="menu menu-der user-dropdown" id="menu-der">
+				<li class="menu-item">
+					<a class="menu-link" th:href="@{/auth/login}">Inicia sesion</a>
+				</li>
+				<li class="menu-item">
+					<a class="menu-link" th:href="@{/auth/registrarse}">Registrarse</a>
+				</li>
+			</ul>
+			<ul sec:authorize="isAuthenticated()" class="menu menu-der user-dropdown" id="menu-der">
+
+				<li class="menu-item">
+					<form th:action="@{/logout}" method="post" id="form-salir">
+						<button class="menu-link btn-logout" id="salir" type="submit">
+							Cerrar sesion
+						</button>
+					</form>
+				</li>
+			</ul>
+		</div>
+		<div class="user-container">
+			<svg class="icon-user" id="icon-user" viewBox="0 0 24 24">
+				<circle cx="12" cy="8" r="4" />
+				<path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+			</svg>
+		</div>
+	</nav>
+	<div class="container">
+		<main class="content">
+			<h1>Completar perfil organizador</h1>
+
+			<form th:action="@{/profile/organizador/completar_organizador}" th:object="${organizador}" id="login-form"
+				method="post">
+
+				<fieldset class="campos">
+
+					<label for="nombreOrganizador">
+						<input type="text" th:field="*{nombreOrganizador}" id="nombreOrganizador"
+							placeholder="nombre del organizador" />
+						<span th:if="${nombreOrganizadorError}" th:text="${nombreOrganizadorError}"
+							class="error"></span>
+					</label>
+
+					<label for="tipoOrganizador">
+						<input type="text" th:field="*{tipoOrganizador}" id="tipoOrganizador"
+							placeholder="tipo de organizador" />
+						<span th:if="${tipoOrganizadorError}" th:text="${tipoOrganizadorError}" class="error"></span>
+					</label>
+
+					<label for="limiteEventos">
+						<input type="number" th:field="*{limiteEventos}" id="limiteEventos"
+							placeholder="numero limite de eventos para el organizador" />
+						<span th:if="${tipoOrganizadorError}" th:text="${limiteEventosError}" class="error"></span>
+					</label>
+				</fieldset>
+				<fieldset class="controles">
+					<input type="submit" value="Completar perfil">
+				</fieldset>
+			</form>
+
+			<span th:if="${errorMsg}" class="alert alert-danger" th:text="${errorMsg}"></span>
+			<span th:if="${successMsg}" th:text="${successMsg}"></span>
+		</main>
+	</div>
+</body>
+
+</html>

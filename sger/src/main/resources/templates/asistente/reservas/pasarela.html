@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <script th:src="@{../../../js/realizar_reserva.js}"></script> -->
+	<title>Pasarela de pago</title>
+</head>
+
+<body>
+	<div th:replace="~{fragments/comun :: barraNav}"></div>
+	<main class="content">
+		<h1>Realizar pago</h1>
+
+		<form method="post" th:action="@{/profile/asistente/pasarela/success}" th:object="${reservaTemp}"
+			id="login-form">
+			<section id="detallesComprador">
+
+				<label for="titular">
+					<input type="text" th:field="*{titular}" id="titular">
+
+				</label>
+
+				<label for="nombreEvento">
+					<input type="text" th:field="*{nombreEvento}" id="nombreEvento" placeholder="nombre del evento">
+
+				</label>
+
+				<label for="cantidadEntradas">
+					<input type="number" th:field="*{cantidadEntradas}" id="cantidadEntradas"
+						placeholder="cantidad de entradas">
+
+				</label>
+				<label for="precioTotal">
+					<input type="number" th:field="*{precioTotal}" id="precioTotal"
+						placeholder="precio total de la reserva">
+
+				</label>
+				<label for="fechaReserva">
+					<input type="date" th:field="*{fechaReserva}" id="fechaReserva">
+
+				</label>
+
+				<fieldset th:switch="${reservaTemp?.metodoPago?.name()}">
+					<div th:case="TARJETA_CREDITO">
+						<span>Pago con tarjeta de credito</span>
+						<input type="text" placeholder="Número de tarjeta">
+						<input type="text" placeholder="CVV">
+					</div>
+
+					<div th:case="BIZUM">
+						<span>Pago con Bizum</span>
+						<input type="tel" placeholder="Número de teléfono de Bizum">
+					</div>
+
+					<div th:case="PAYPAL">
+						<span>Pago con PayPal</span>
+						<a href="https://www.paypal.com/pay">Pagar con PayPal</a>
+					</div>
+
+					<div th:case="TRANSFERENCIA">
+						<span>Realizar transferencia a la cuenta: </span>
+						<span>IBAN: ES12 3456 7890 1234 5678 9012</span>
+					</div>
+
+				</fieldset>
+
+				<input type="submit" value="Realizar pago">
+
+			</section>
+		</form>
+		<span th:text="${successMsg}"></span>
+	</main>
+</body>
+
+</html>

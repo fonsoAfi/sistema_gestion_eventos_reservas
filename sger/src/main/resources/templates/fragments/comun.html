@@ -1,0 +1,35 @@
+<!--Framgmentos comunes en casi todos los html de la aplicacion-->
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<link rel="stylesheet" th:href="@{/css/normalice.css?v=1.0}">-->
+	 <link rel="stylesheet" th:href="@{/css/style.css}">
+	 <script th:fragment="interacciones" th:src="@{../../../js/interacciones.js}"></script>
+</head>
+<body>
+    <aside class="sidebar" th:fragment="barraNav">
+    	<button id="toggleSidebar" class="menu-btn">☰</button>
+        <nav id="navbar">
+            <ul class="list">
+                <li><a href="/">Inicio</a></li>
+                <li th:if="${#authentication.authenticated}">
+                	<a th:href="@{/profile}">Mi perfil</a>
+                </li>
+                <li sec:authorize="isAnonymous()"><a th:href="@{/auth/login}">&#x1F511; iniciar sesión</a></li>
+				<li sec:authorize="isAuthenticated()">
+            		<a th:href="@{/profile/cambiar_clave}">Cambiar clave</a>
+       		    </li>
+       		    <li sec:authorize="isAuthenticated()">
+            		<form th:action="@{/logout}" method="post">
+                		<button type="submit">Cerrar sesión</button>
+            		</form>
+       		    </li>
+                <li><a th:href="@{/infoLegal}">&#x2139; información</a></li>
+            </ul>
+
+        </nav>
+    </aside>
+</body>
+</html>

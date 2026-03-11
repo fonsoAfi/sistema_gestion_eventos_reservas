@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/navbar.css}">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+	<link rel="stylesheet" th:href="@{/css/auth.css}">
+	<script th:src="@{/js/menu.js}"></script>
+	<script th:src="@{/js/auth.js}"></script>
+	<title>Registrarse</title>
+</head>
+<body class="auth-page">
+	<div class="container">
+		<nav class="navbar" id="navbar">
+			<div class="icon-hamburger" id="hamburger">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</div>
+			<div class="menu-wrapper">
+				<ul class="menu menu-izq" id="menu-izq">
+					<li class="menu-item"><a class="menu-link" th:href="@{/}">Inicio</a></li>
+					<li class="menu-item" sec:authorize="isAuthenticated()">
+						<a class="menu-link" th:href="@{/profile/asistente/dashboardAsistente}">Perfil</a>
+					</li>
+					<li class="menu-item" sec:authorize="!isAuthenticated()">
+						<a class="menu-link" th:href="@{/#eventos}">Eventos</a>
+					</li>
+				</ul>
+				<ul class="menu menu-der user-dropdown" id="menu-der">
+					<li class="menu-item" sec:authorize="!isAuthenticated()">
+						<a class="menu-link" th:href="@{/auth/login}">Inicia sesion</a>
+					</li>
+					<li class="menu-item" sec:authorize="!isAuthenticated()">
+						<a class="menu-link" th:href="@{/auth/registrarse}">Registrarse</a>
+					</li>
+					<li class="menu-item" sec:authorize="isAuthenticated()">
+						<form th:action="@{/logout}" method="post" id="form-salir">
+							<button id="salir" type="submit">
+								Cerrar sesion
+							</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+			<div class="user-container">
+				<svg class="icon-user" id="icon-user" viewBox="0 0 24 24">
+					<circle cx="12" cy="8" r="4" />
+					<path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+				</svg>
+			</div>
+		</nav>
+		<main class="content">
+			<section class="auth" id="auth">
+				<div class="auth-card">
+					<header class="auth-header" id="signin-header">
+						<h1 class="auth-h">Formulario de Registro</h1>
+					</header>
+					<form th:action="@{/auth/registrarse}" th:object="${usuarioReq}" id="signin-form" class="auth-form"
+						method="post">
+						<div id="paso1" class="paso">
+							<fieldset class="campos">
+								<label for="nombreReal">
+									<span class="mensajeError"></span>
+									<input type="text" th:field="*{nombreReal}" id="nombreReal"
+										placeholder="nombre real" class="campo">
+									<span th:if="${nombreRealError}" th:text="${nombreRealError}" class="error"></span>
+								</label>
+								<label for="apellido1">
+									<span class="mensajeError"></span>
+									<input type="text" th:field="*{apellido1}" id="apellido1" placeholder="apellido 1"
+										class="campo">
+									<span th:if="${apellido1Error}" th:text="${apellido1Error}" class="error"></span>
+								</label>
+								<label for="apellido2">
+									<span class="mensajeError"></span>
+									<input type="text" th:field="*{apellido2}" id="apellido2" placeholder="apellido 2"
+										class="campo">
+									<span th:if="${apellido2Error}" th:text="${apellido2Error}" class="error"></span>
+								</label>
+							</fieldset>
+							<fieldset class="campos">
+								<label for="nombrePerfil">
+									<span class="mensajeError"></span>
+									<input type="text" th:field="*{nombrePerfil}" id="nombrePerfil"
+										placeholder="nombre de perfil" class="campo">
+									<span th:if="${nombrePerfilError}" th:text="${nombrePerfilError}"
+										class="error"></span>
+								</label>
+								<label for="mail">
+									<span class="mensajeError"></span>
+									<input type="email" th:field="*{mail}" id="mail"
+										placeholder="email, ej: nombre@mail.com" class="campo">
+									<span th:if="${mailError}" th:text="${mailError}" class="error"></span>
+								</label>
+								<label for="clave">
+									<span class="mensajeError"></span>
+									<input type="password" th:field="*{clave}" id="clave"
+										placeholder="Escribe una contraseña..." class="campo">
+									<span th:if="${claveError}" th:text="${claveError}" class="error"></span>
+								</label>
+							</fieldset>
+							<fieldset class="controles">
+								<a href="#" class="btn-paso siguiente" id="btn-siguiente">Siguiente</a>
+								<a th:href="@{/auth/login}" class="link-form">Iniciar Sesión</a>
+							</fieldset>
+						</div>
+						<div id="paso2" class="paso">
+							<fieldset class="campos secundarios">
+								<label for="telefono">
+									<span class="mensajeError"></span>
+									<input type="tel" th:field="*{telefono}" id="telefono" placeholder="ej: 690123456"
+										class="campo">
+									<span th:if="${telefonoError}" th:text="${telefonoError}" class="error"></span>
+								</label>
+								<label for="fechaNac" class="lab-nac">
+									<span class="mensajeError"></span>
+									<input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" class="campo">
+								</label>
+								<label for="paises">
+									<span class="mensajeError"></span>
+									<select id="paises" th:field="*{pais}" th:class="campo">
+										<option value="" disabled
+											th:selected="${usuarioReq.pais == null or usuarioReq.pais == ''}">Selecciona
+											un pais</option>
+										<option th:each="pais : ${paises}" th:value="${pais}" th:text="${pais}">
+										</option>
+									</select>
+									<span th:if="${paisError}" th:text="${paisError}" class="error"></span>
+								</label>
+							</fieldset>
+							<fieldset class="roles" id="roles">
+								<span class="mensajeError"></span>
+								<p>Selecciona el rol del usuario:</p>
+								<label for="rol" th:each="rol : ${roles}">
+									<input type="radio" name="rol" th:id="${rol}" th:value="${rol}" th:class="campo">
+									<span id="rol" th:text="${rol}" class="opcion"></span>
+								</label>
+							</fieldset>
+							<fieldset class="controles">
+								<a href="#" class="btn-paso anterior">Anterior</a>
+								<input type="submit" value="Registrarse" class="enviar" id="enviar">
+								<a th:href="@{/auth/login}" class="link-form">Iniciar Sesión</a>
+							</fieldset>
+						</div>
+					</form>
+					<div class="mensaje-container">
+						<span th:if="${errorMsg}" th:text="${errorMsg}" id="mensajeError" class="msgErrServ"></span>
+					</div>
+				</div>
+			</section>
+		</main>
+	</div>
+</body>
+</html>

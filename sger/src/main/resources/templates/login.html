@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/navbar.css}">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+	<link rel="stylesheet" th:href="@{/css/auth.css}">
+	<script th:src="@{/js/menu.js}"></script>
+	<script th:src="@{/js/auth.js}"></script>
+	<title>Iniciar sesion</title>
+</head>
+
+<body class="auth-page">
+	<div class="container">
+		<nav class="navbar" id="navbar">
+			<div class="icon-hamburger" id="hamburger">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</div>
+			<div class="menu-wrapper">
+				<ul class="menu menu-izq" id="menu-izq">
+					<li class="menu-item"><a class="menu-link" th:href="@{/}">Inicio</a></li>
+					<li class="menu-item" sec:authorize="isAuthenticated()">
+						<a class="menu-link" th:href="@{/profile/asistente/dashboardAsistente}">Perfil</a>
+					</li>
+					<li class="menu-item" sec:authorize="!isAuthenticated()">
+						<a class="menu-link" th:href="@{/#eventos}">Eventos</a>
+					</li>
+				</ul>
+				<ul class="menu menu-der user-dropdown" id="menu-der">
+					<li class="menu-item" sec:authorize="!isAuthenticated()">
+						<a class="menu-link" th:href="@{/auth/login}">Inicia sesion</a>
+					</li>
+					<li class="menu-item" sec:authorize="!isAuthenticated()">
+						<a class="menu-link" th:href="@{/auth/registrarse}">Registrarse</a>
+					</li>
+					<li class="menu-item" sec:authorize="isAuthenticated()">
+						<form th:action="@{/logout}" method="post" id="form-salir">
+							<button id="salir" type="submit">
+								Cerrar sesion
+							</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+			<div class="user-container">
+				<svg class="icon-user" id="icon-user" viewBox="0 0 24 24">
+					<circle cx="12" cy="8" r="4" />
+					<path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+				</svg>
+			</div>
+		</nav>
+		<main class="content">
+			<section class="auth" id="auth">
+				<div class="auth-card">
+					<header class="auth-header" id="login-header">
+						<h1 class="auth-h">Formulario de inicio de Sesión</h1>
+					</header>
+					<form action="#" method="post" id="login-form" class="auth-form" th:action="@{/auth/login}">
+						<fieldset class="campos" th:fragment="datosUsuario">
+							<label for="mail" th:fragment="campoEmail">
+								<span class="mensajeError"></span>
+								<input type="email" name="mail" id="mail" th:value="${last_mail}"
+									placeholder="email, ej: nombre@mail.com" class="campo">
+							</label>
+							<label for="clave" th:fragment="campoClave">
+								<span class="mensajeError"></span>
+								<input type="password" name="clave" id="clave" placeholder="Escribe una contraseña..."
+									class="campo">
+							</label>
+						</fieldset>
+						<fieldset th:fragment="controlesLogin" class="controles">
+							<input type="submit" th:fragment="submLogin" value="Iniciar Sesión" class="enviar"
+								id="enviar">
+							<a th:href="@{/auth/registrarse}" th:fragment="linkSignin" class="link-form">Registrarse</a>
+						</fieldset>
+					</form>
+					<div class="mensaje-container">
+						<span th:if="${errorMessage}" th:text="${errorMessage}" id="mensajeError"
+							class="msgErrServ"></span>
+						<span th:if="${successMsg}" th:text="${successMsg}" id="mensajeExito"
+							class="mensajeExito"></span>
+					</div>
+				</div>
+			</section>
+		</main>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/navbar.css}">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+	<link rel="stylesheet" th:href="@{/css/pages/dashboardAdministrador.css}">
+	<script th:src="@{/js/menu.js}"></script>
+	<title th:text="Dashboard + ' ' + ${nombreReal}">Dashboard Administrador</title>
+</head>
+
+<body>
+	<div class="container">
+		<nav class="navbar" id="navbar">
+			<div class="icon-hamburger" id="hamburger">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</div>
+			<div class="menu-wrapper">
+				<ul class="menu menu-izq" id="menu-izq">
+					<li class="menu-item"><a class="menu-link" th:href="@{/}">Inicio</a></li>
+					<li class="menu-item" sec:authorize="isAuthenticated()">
+						<a sec:authorize="hasRole('ASISTENTES')" class="menu-link"
+							th:href="@{/profile/asistente/dashboardAsistente}">Perfil</a>
+						<a sec:authorize="hasRole('ORGANIZADORES')" class="menu-link"
+							th:href="@{/profile/organizador/dashboardOrganizador}">Perfil</a>
+						<a sec:authorize="hasRole('ADMINISTRADORES')" class="menu-link"
+							th:href="@{/profile/administrador/dashboardAdministrador}">Perfil</a>
+					</li>
+					<li class="menu-item" sec:authorize="!isAuthenticated()">
+						<a class="menu-link" th:href="@{/#eventos}">Eventos</a>
+					</li>
+					<li sec:authorize="isAuthenticated() and hasRole('ADMINISTRADORES')" class="menu-item dropdown">
+						<a class="menu-link dropdown-toggle">Gestionar</a>
+						<ul class="dropdown-menu" id="menu-izq">
+							<li class="menu-item">
+								<a href="/profile/administrador/eventos/tablaEventos" class="dropdown-link">Eventos</a>
+							</li>
+							<li class="menu-item">
+								<a href="/profile/administrador/usuarios/tablaUsuarios"
+									class="dropdown-link">Usuarios</a>
+							</li>
+							<li class="menu-item">
+								<a href="/profile/administrador/categorias/tablaCategorias"
+									class="dropdown-link">Categorias</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul sec:authorize="!isAuthenticated()" class="menu menu-der user-dropdown" id="menu-der">
+					<li class="menu-item">
+						<a class="menu-link" th:href="@{/auth/login}">Inicia sesion</a>
+					</li>
+					<li class="menu-item">
+						<a class="menu-link" th:href="@{/auth/registrarse}">Registrarse</a>
+					</li>
+				</ul>
+				<ul sec:authorize="isAuthenticated()" class="menu menu-der user-dropdown" id="menu-der">
+
+					<li class="menu-item">
+						<form th:action="@{/logout}" method="post" id="form-salir">
+							<button class="menu-link btn-logout" id="salir" type="submit">
+								Cerrar sesion
+							</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+			<div class="user-container">
+				<svg class="icon-user" id="icon-user" viewBox="0 0 24 24">
+					<circle cx="12" cy="8" r="4" />
+					<path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+				</svg>
+			</div>
+		</nav>
+		<main class="content" id="content">
+			<div class="secciones">
+				<section class="seccion">
+					<header class="section-header">
+						<h1>Dashboard Administrador</h1>
+					</header>
+
+					<section class="estadisticas">
+
+						<article class="total">
+							<div class="card-container">
+								<div class="card-body">
+									<p class="card-title">Total de usuarios registrados<span
+											th:text="${totalUsuarios}">0</span></p>
+								</div>
+							</div>
+						</article>
+
+						<article class="total">
+							<div class="card-container">
+								<div class="card-body">
+									<p class="card-title">Total de eventos registrados<span
+											th:text="${totalEventos}">0</span></p>
+								</div>
+							</div>
+						</article>
+
+						<article class="total">
+							<div class="card-container">
+								<div class="card-body">
+									<p class="card-title">Total de reservas registradas<span
+											th:text="${totalReservas}">0</span></p>
+								</div>
+							</div>
+						</article>
+
+						<article class="total">
+							<div class="card-container">
+								<div class="card-body">
+									<p class="card-title">Total de ventas registradas<span
+											th:text="${totalVentas}">0</span></p>
+								</div>
+							</div>
+						</article>
+
+						<article class="total">
+							<div class="card-container">
+								<div class="card-body">
+									<p class="card-title">Total de ventas completadas<span
+											th:text="${totalVentasCompletadas}">0</span></p>
+								</div>
+							</div>
+						</article>
+
+						<article class="total">
+							<div class="card-container">
+								<div class="card-body">
+									<p class="card-title">Total de reservas pendientes de pago<span
+											th:text="${totalReservasPendientes}">0</span></p>
+								</div>
+							</div>
+						</article>
+
+						<article class="total">
+							<div class="card-container">
+								<div class="card-body">
+									<p class="card-title">Total de reservas canceladas<span
+											th:text="${totalReservasCanceladas}">0</span></p>
+								</div>
+							</div>
+						</article>
+
+						<article class="total">
+							<div class="card-container">
+								<div class="card-body">
+									<p class="card-title">Ingresos totales<span th:text="${totalIngresos}">0</span>
+									</p>
+								</div>
+							</div>
+						</article>
+					</section>
+				</section>
+				<section class="seccion">
+
+					<!-- Reservas por evento -->
+					<header class="section-header">
+						<h1>Reservas por eventos</h1>
+					</header>
+					<section class="row g-4">
+						<div class="col-lg-6">
+							<div class="card shadow">
+								<div class="card-body">
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th>Id evento</th>
+												<th>Titulo evento</th>
+												<th>Total Reservas</th>
+												<th>Plazas disponibles</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="evento : ${reservasPorEvento}">
+												<td th:text="${evento.idEvento}">1</td>
+												<td th:text="${evento.tituloEvento}"></td>
+												<td th:text="${evento.totalReservas}">0</td>
+												<td th:text="${evento.plazasDisponibles}">0</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</section>
+				</section>
+			</div>
+		</main>
+	</div>
+</body>
+
+</html>

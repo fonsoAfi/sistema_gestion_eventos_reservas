@@ -1,0 +1,170 @@
+.hero {
+	min-height: calc(100vh - 80px);
+	background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+	url("../../images/epic-stage-illumination-blue-vector-spotlight-smoke-and-stadium-ambiance-on-black-backdrop-photo.jpg") center/cover no-repeat;
+	background-position: center 65px;
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	flex-direction: column;
+	gap: 40px;
+	color: white;
+}
+
+.hero-mensaje {
+	padding-bottom: 20px;
+}
+
+.hero-link {
+	text-decoration: none;
+	background-color: red;
+	padding: 10px;
+	color: white;
+	font-size: 25px;
+	border-radius: 25px;
+}
+
+.hero-link:hover {
+	background-color: #d70000;
+}
+
+.hero-link:visited {
+	color: white;
+}
+
+.eventos header {
+	color: white;
+}
+
+.grid-eventos {
+	margin-top: 10px;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 25px;
+}
+
+.card-evento {
+	position: relative;
+	overflow: hidden;
+	padding: 10px;
+	cursor: pointer;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+	border-radius: 25px;
+}
+
+.overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(0,0,0,0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0; 
+	transition: opacity 0.3s;
+	pointer-events: none;
+}
+
+.card-evento:hover .overlay {
+	opacity: 1;
+}
+
+.cartel {
+	border-radius: 25px;
+	width: 350px;
+	height: 400px;
+}
+
+.link-evento {
+	text-decoration: none;
+	color: white;
+	background-color: red;
+	padding: 10px;
+	border-radius: 20px;
+	font-size: 15px;
+	text-transform: uppercase;
+	pointer-events: auto;
+}
+
+.link-evento:hover {
+	cursor: pointer;
+	background-color: #800000;
+}
+
+.lightbox-modal {
+	position: fixed;
+	inset: 0;
+	background: rgba(0,0,0,0.9);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+	cursor: pointer;
+}
+
+.lightbox-cerrar {
+	position: fixed;
+	top: -2vh;
+	left: -2vw;
+	font-family: arial;
+	font-size: 40px;
+	color: white;
+	padding: 30px 280px;
+	cursor: pointer;
+	transition: 0.3s;
+	z-index: 10001;
+}
+
+.lightbox-cerrar:hover {
+	color: red;
+}
+
+.lightbox-img-wrapper {
+	background-color: rgba(10, 25, 60, 0.85);;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 65%;
+	height: 95%;
+	border-radius: 15px;
+}
+
+.lightbox-img {
+	width: 80%;
+	height: 95%;
+	border-radius: 8px;
+	border: 0.5px solid rgba(1,0,0,0.1);
+}
+
+.pagination {
+	margin: 50px 0;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+}
+
+.btn-paginaActual {
+	text-decoration: none;
+	color: white;
+	background-color: red;
+	border: none;
+	border-radius: 2px;
+	font-size: 20px;
+	padding: 5px 10px;
+	transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.btn-paginaActual:hover {
+	background-color: #800000;
+}
+
+.pagina-anterior, .pagina-siguiente {
+	color: white;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+.pagina-anterior:hover, .pagina-siguiente:hover {
+	color: red;
+}
