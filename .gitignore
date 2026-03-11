@@ -1,0 +1,9 @@
+# Secrets
+sger/src/main/resources/application.properties
+
+# Spring Boot
+/target
+
+# Sistema
+.DS_Store
+Thumbs.db
